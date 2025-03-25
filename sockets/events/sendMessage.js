@@ -8,6 +8,10 @@ const sendMessage = async (senderId, receiverId, message, io) => {
     let conversation = await Conversation.findOne({
       participants: { $all: [senderId, receiverId] },
     });
+    const usersInRoom = Array.from(
+      io.sockets.adapter.rooms.get(conversation.roomId) || []
+    );
+    console.log(usersInRoom);
     if (!conversation) {
       const roomId = getRoomId(senderId, receiverId);
       conversation = await Conversation.create({
@@ -25,7 +29,7 @@ const sendMessage = async (senderId, receiverId, message, io) => {
         await newMessage.save();
         conversation.messages.push(newMessage._id);
         await conversation.save();
-        io.emit("receiveMsg", { message: "message" });
+        io.to(roomId).emit("receiveMsg", { message: "message" });
       }
     } else {
       const newMessage = new Message({
@@ -37,11 +41,11 @@ const sendMessage = async (senderId, receiverId, message, io) => {
       await newMessage.save();
       conversation.messages.push(newMessage._id);
       await conversation.save();
-      io.emit("receiveMsg", { message: "message" });
+      io.to(conversation.roomId).emit("receiveMsg", { message: "message" });
     }
   } catch (error) {
     console.log(error);
-    io.emit("errorSending", { message: error });
+    // io.to(conversation.roomId).emit("errorSending", { message: error });
   }
 };
 
