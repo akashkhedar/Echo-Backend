@@ -2,8 +2,9 @@ const Conversation = require("../../models/conversation");
 const Message = require("../../models/message");
 const getRoomId = require("../../Utils/getRoomId");
 const { getIO } = require("../../Utils/io");
+const { checkSocketId } = require("../../Utils/redis");
 
-const sendMessage = async (senderId, receiverId, message, io) => {
+const sendMessage = async (socket, senderId, receiverId, message, io) => {
   try {
     let conversation = await Conversation.findOne({
       participants: { $all: [senderId, receiverId] },
