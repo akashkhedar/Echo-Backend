@@ -9,12 +9,13 @@ const sendMessage = async (socket, senderId, receiverId, message, io) => {
     let conversation = await Conversation.findOne({
       participants: { $all: [senderId, receiverId] },
     });
-    const usersInRoom = Array.from(
-      io.sockets.adapter.rooms.get(conversation.roomId) || []
-    );
-    console.log(usersInRoom);
+
     if (!conversation) {
       const roomId = getRoomId(senderId, receiverId);
+      socket.join(roomId);
+      const usersInRoom = Array.from(
+        io.sockets.adapter.rooms.get(conversation.roomId) || []
+      );
       conversation = await Conversation.create({
         participants: [senderId, receiverId],
         roomId: roomId,
@@ -30,9 +31,15 @@ const sendMessage = async (socket, senderId, receiverId, message, io) => {
         await newMessage.save();
         conversation.messages.push(newMessage._id);
         await conversation.save();
-        io.to(roomId).emit("receiveMsg", { message: "message" });
+        io.to(roomId).emit("receiveMsg", { message: newMessage });
       }
     } else {
+      const usersInRoom = Array.from(
+        io.sockets.adapter.rooms.get(conversation.roomId) || []
+      );
+      if (usersInRoom.includes(socket.id) === false) {
+        socket.join(conversation.roomId);
+      }
       const newMessage = new Message({
         sender: senderId,
         receiver: receiverId,
@@ -42,11 +49,10 @@ const sendMessage = async (socket, senderId, receiverId, message, io) => {
       await newMessage.save();
       conversation.messages.push(newMessage._id);
       await conversation.save();
-      io.to(conversation.roomId).emit("receiveMsg", { message: "message" });
+      io.to(conversation.roomId).emit("receiveMsg", { message: newMessage });
     }
   } catch (error) {
-    console.log(error);
-    // io.to(conversation.roomId).emit("errorSending", { message: error });
+    io.emit("errorSending", { message: error });
   }
 };
 
