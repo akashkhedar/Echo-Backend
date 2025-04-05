@@ -56,10 +56,17 @@ const checkSocketId = async (userId) => {
   return socketId;
 };
 
+const deleteSocketId = async (userId) => {
+  console.log(userId);
+  await client.del(userId);
+  return;
+};
+
 module.exports = {
   storeRefreshToken,
   validateRefreshToken,
   deleteRefreshtoken,
   storeSocketId,
   checkSocketId,
+  deleteSocketId,
 };
