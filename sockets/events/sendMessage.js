@@ -9,7 +9,6 @@ const sendMessage = async (socket, senderId, receiverId, message, io) => {
     let conversation = await Conversation.findOne({
       participants: { $all: [senderId, receiverId] },
     });
-
     if (!conversation) {
       const roomId = getRoomId(senderId, receiverId);
       socket.join(roomId);
@@ -57,12 +56,10 @@ const sendMessage = async (socket, senderId, receiverId, message, io) => {
       const usersInRoom = Array.from(
         io.sockets.adapter.rooms.get(conversation.roomId) || []
       );
-      const receiverSocket = await checkSocketId(receiverId);
-      const senderSocket = await checkSocketId(senderId);
-      console.log(senderSocket, receiverSocket);
-      if (usersInRoom.includes(socket.id) === false) {
+      if (!usersInRoom.includes(socket.id)) {
         socket.join(conversation.roomId);
       }
+      const receiverSocket = await checkSocketId(receiverId);
       if (!receiverSocket) {
         const newMessage = new Message({
           sender: senderId,
@@ -75,7 +72,6 @@ const sendMessage = async (socket, senderId, receiverId, message, io) => {
         conversation.messages.push(newMessage._id);
         await conversation.save();
         io.to(conversation.roomId).emit("receiveMsg", { message: newMessage });
-        console.log("offline");
         return;
       }
       const newMessage = new Message({
@@ -90,7 +86,6 @@ const sendMessage = async (socket, senderId, receiverId, message, io) => {
       conversation.messages.push(newMessage._id);
       await conversation.save();
       io.to(conversation.roomId).emit("receiveMsg", { message: newMessage });
-      console.log("online");
       return;
     }
   } catch (error) {

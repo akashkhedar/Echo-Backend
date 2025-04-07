@@ -57,7 +57,6 @@ const checkSocketId = async (userId) => {
 };
 
 const deleteSocketId = async (userId) => {
-  console.log(userId);
   await client.del(userId);
   return;
 };
