@@ -11,8 +11,8 @@ const onConnection = (socket, io) => {
   socket.on("joinAllRooms", (rooms) => {
     joinAllRooms(socket, rooms);
   });
-  socket.on("sendMessage", ({ senderId, receiverId, message }) => {
-    sendMessage(socket, senderId, receiverId, message, io);
+  socket.on("sendMessage", ({ senderId, receiverId, message, username }) => {
+    sendMessage(socket, senderId, receiverId, message, username, io);
   });
   socket.on("readMsg", ({ msgId, chatId, roomId }) => {
     readMsg(socket, io, msgId, chatId, roomId);

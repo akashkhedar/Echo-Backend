@@ -31,11 +31,11 @@ const initializeRedis = async () => {
 initializeRedis();
 
 const storeRefreshToken = async (token, data) => {
-  await client.set(token, JSON.stringify(data), { EX: 604800 });
+  await client.set(`refreshTk:${token}`, JSON.stringify(data), { EX: 604800 });
 };
 
 const validateRefreshToken = async (refreshToken) => {
-  const userData = await client.get(refreshToken);
+  const userData = await client.get(`refreshTk:${refreshToken}`);
   if (!userData) {
     return false;
   }
@@ -43,21 +43,35 @@ const validateRefreshToken = async (refreshToken) => {
 };
 
 const deleteRefreshtoken = async (token) => {
-  await client.del(token);
+  await client.del(`refreshTk:${token}`);
   return;
 };
 
 const storeSocketId = async (userId, socketId) => {
-  await client.set(userId, socketId);
+  await client.set(`online:${userId}`, socketId);
 };
 
 const checkSocketId = async (userId) => {
-  const socketId = await client.get(userId);
+  const socketId = await client.get(`online:${userId}`);
   return socketId;
 };
 
 const deleteSocketId = async (userId) => {
-  await client.del(userId);
+  await client.del(`online:${userId}`);
+  return;
+};
+
+const storeOfflineMessages = async (userId, convoId, username) => {
+  const offlineMessages = await client.get(`offlineMsgs:${userId}`);
+  const parsedMessages = offlineMessages ? JSON.parse(offlineMessages) : {};
+  if (!parsedMessages[convoId]) {
+    parsedMessages[convoId] = { unreadMsgs: 1, sender: username };
+  } else {
+    parsedMessages[convoId].unreadMsgs += 1;
+  }
+  await client.set(`offlineMsgs:${userId}`, JSON.stringify(parsedMessages), {
+    EX: 604800,
+  });
   return;
 };
 
@@ -68,4 +82,5 @@ module.exports = {
   storeSocketId,
   checkSocketId,
   deleteSocketId,
+  storeOfflineMessages,
 };
