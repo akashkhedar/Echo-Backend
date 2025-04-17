@@ -22,7 +22,7 @@ client.on("error", (err) => {
 const initializeRedis = async () => {
   try {
     await client.connect();
-    console.log("Redis client connected successfully!");
+    console.log("Redis Connected!");
   } catch (error) {
     console.error("Error connecting to Redis:", error);
   }

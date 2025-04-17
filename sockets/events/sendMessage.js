@@ -31,6 +31,7 @@ const sendMessage = async (
           sender: senderId,
           receiver: receiverId,
           roomId: roomId,
+          conversationId: conversation._id,
           message: message,
           sent: true,
         });
@@ -44,6 +45,7 @@ const sendMessage = async (
           sender: senderId,
           receiver: receiverId,
           roomId: roomId,
+          conversationId: conversation._id,
           message: message,
           sent: true,
           delivered: true,
@@ -67,6 +69,7 @@ const sendMessage = async (
           sender: senderId,
           receiver: receiverId,
           roomId: conversation.roomId,
+          conversationId: conversation._id,
           message: message,
           sent: true,
         });
@@ -74,10 +77,18 @@ const sendMessage = async (
         conversation.messages.push(newMessage._id);
         await conversation.save();
         await storeOfflineMessages(receiverId, conversation._id, username);
-        io.to(socket.id).emit("receiveMsg", {
-          msg: newMessage,
-          sender: username,
-        });
+        io.timeout(200)
+          .to(socket.id)
+          .emit("receiveMsg", newMessage, (err, response) => {
+            if (err) {
+              console.log(err);
+              return;
+            }
+            if (response[0].status !== "ok") {
+              io.to(socket.id).emit("notify", username);
+              return;
+            }
+          });
 
         return;
       }
@@ -85,6 +96,7 @@ const sendMessage = async (
         sender: senderId,
         receiver: receiverId,
         roomId: conversation.roomId,
+        conversationId: conversation._id,
         message: message,
         delivered: true,
         sent: true,
@@ -92,20 +104,9 @@ const sendMessage = async (
       await newMessage.save();
       conversation.messages.push(newMessage._id);
       await conversation.save();
-      io.to(socket.id).emit("receiveMsg", {
-        msg: newMessage,
-        sender: username,
-      });
-      //   , (response) => {
-      //    if (response.status !== "ok") {
-      //      io.to(receiverSocket).emit("missedMsg", {
-      //        conversationId: _id,
-      //        sender: username,
-      //        message: newMessage.message,
-      //      });
-      //    }
-      //  }
-
+      io.timeout(200)
+        .to(conversation.roomId)
+        .emit("receiveMsg", newMessage, username);
       return;
     }
   } catch (error) {

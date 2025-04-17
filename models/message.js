@@ -18,6 +18,10 @@ const messageModel = new mongoose.Schema(
     roomId: {
       type: String,
     },
+    conversationId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Conversation",
+    },
     message: {
       type: String,
     },

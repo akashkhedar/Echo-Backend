@@ -59,6 +59,4 @@ app.get("/chat/list", require("./routes/chatList"));
 app.post("/send/msg/:id", require("./routes/sendMsg"));
 app.get("/fetch/chats/:id", require("./routes/fetchChats"));
 
-server.listen(port, () =>
-  console.log(`Example app listening on port ${port}!`)
-);
+server.listen(port, () => console.log("Server Started!"));
