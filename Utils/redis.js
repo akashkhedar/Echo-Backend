@@ -75,6 +75,12 @@ const storeOfflineMessages = async (userId, convoId, username) => {
   return;
 };
 
+const getOfflineMessages = async (userId) => {
+  const offlineMessages = await client.get(`offlineMsgs:${userId}`);
+  const parsedMessages = offlineMessages ? JSON.parse(offlineMessages) : {};
+  return parsedMessages;
+};
+
 module.exports = {
   storeRefreshToken,
   validateRefreshToken,
@@ -83,4 +89,5 @@ module.exports = {
   checkSocketId,
   deleteSocketId,
   storeOfflineMessages,
+  getOfflineMessages,
 };

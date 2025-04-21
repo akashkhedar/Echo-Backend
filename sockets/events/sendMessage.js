@@ -77,19 +77,7 @@ const sendMessage = async (
         conversation.messages.push(newMessage._id);
         await conversation.save();
         await storeOfflineMessages(receiverId, conversation._id, username);
-        io.timeout(200)
-          .to(socket.id)
-          .emit("receiveMsg", newMessage, (err, response) => {
-            if (err) {
-              console.log(err);
-              return;
-            }
-            if (response[0].status !== "ok") {
-              io.to(socket.id).emit("notify", username);
-              return;
-            }
-          });
-
+        io.to(socket.id).emit("receiveMsg", newMessage);
         return;
       }
       const newMessage = new Message({
