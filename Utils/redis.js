@@ -61,24 +61,38 @@ const deleteSocketId = async (userId) => {
   return;
 };
 
-const storeOfflineMessages = async (userId, convoId, username) => {
+const storeOfflineMessages = async (userId, convoId) => {
   const offlineMessages = await client.get(`offlineMsgs:${userId}`);
-  const parsedMessages = offlineMessages ? JSON.parse(offlineMessages) : {};
-  if (!parsedMessages[convoId]) {
-    parsedMessages[convoId] = { unreadMsgs: 1, sender: username };
+  let parsedMessages = JSON.parse(offlineMessages);
+  if (parsedMessages) {
+    if (!parsedMessages.includes(convoId)) {
+      parsedMessages.push(convoId);
+    }
+    return;
   } else {
-    parsedMessages[convoId].unreadMsgs += 1;
+    parsedMessages = [convoId];
+    await client.set(`offlineMsgs:${userId}`, JSON.stringify(parsedMessages));
   }
-  await client.set(`offlineMsgs:${userId}`, JSON.stringify(parsedMessages), {
-    EX: 604800,
-  });
   return;
 };
 
 const getOfflineMessages = async (userId) => {
   const offlineMessages = await client.get(`offlineMsgs:${userId}`);
-  const parsedMessages = offlineMessages ? JSON.parse(offlineMessages) : {};
+  const parsedMessages = offlineMessages ? JSON.parse(offlineMessages) : [];
   return parsedMessages;
+};
+
+const deleteOfflineMessages = async (userId) => {
+  const offlineMessages = await client.del(`offlineMsgs:${userId}`);
+  let parsedMessages = offlineMessages ? JSON.parse(offlineMessages) : [];
+  if (!parsedMessages.length === 0) {
+    if (parsedMessages.includes(convoId)) {
+      const updated = arr.filter((item) => item !== "b");
+      return;
+    }
+  }
+
+  return;
 };
 
 module.exports = {
@@ -90,4 +104,5 @@ module.exports = {
   deleteSocketId,
   storeOfflineMessages,
   getOfflineMessages,
+  deleteOfflineMessages,
 };

@@ -1,6 +1,6 @@
 const Message = require("../models/message");
 const Conversation = require("../models/conversation");
-const { checkSocketId } = require("../Utils/redis");
+const { checkSocketId, getOfflineMessages } = require("../Utils/redis");
 
 const ChatList = async (req, res) => {
   const { userId } = req.user;
@@ -9,6 +9,7 @@ const ChatList = async (req, res) => {
     .select("_id roomId participants")
     .lean();
 
+  const offlineMessages = await getOfflineMessages(userId);
   const filteredConversations = await Promise.all(
     conversations.map(async (convo) => {
       const user = convo.participants.find((p) => p._id.toString() !== userId);
@@ -18,6 +19,7 @@ const ChatList = async (req, res) => {
       return {
         _id: convo._id,
         roomId: convo.roomId,
+        unread: offlineMessages.includes(convo._id.toString()),
         user: {
           ...user,
           isOnline: !!isOnline,
@@ -25,7 +27,6 @@ const ChatList = async (req, res) => {
       };
     })
   );
-
   res.status(200).json(filteredConversations);
 };
 
