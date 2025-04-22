@@ -46,7 +46,7 @@ app.post(
 app.post("/updateprofile", require("./routes/updateProfile"));
 app.post("/deleteaccount", require("./routes/deleteAccount"));
 app.get("/fetch/followers/:id", require("./routes/fetchFollowers"));
-// app.get("/fetch/following/:id", require("./routes/fetchFollowing"));
+app.get("/fetch/following/:id", require("./routes/fetchFollowing"));
 
 //POST ROUTES
 app.post("/upload/post", require("./routes/uploadPost"));
