@@ -23,6 +23,9 @@ app.use(
     credentials: true, // Allow cookies and other credentials
   })
 );
+
+//https://meilisearch-sfl6.onrender.com
+
 app.use(cookieParser());
 app.use(express.json());
 app.use(cookieAuthentication);

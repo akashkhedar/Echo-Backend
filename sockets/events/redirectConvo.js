@@ -33,5 +33,7 @@ const redirectConvo = async (sender, receiver, socket, io) => {
     io.to(socket.id).emit("newConvo", formattedconvo);
     return;
   }
+
+  io.to(socket.id).emit("redirectConvo", conversation._id);
 };
 module.exports = redirectConvo;
