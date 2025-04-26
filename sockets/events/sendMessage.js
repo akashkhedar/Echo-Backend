@@ -52,8 +52,8 @@ const sendMessage = async (
         });
         await newMessage.save();
         conversation.messages.push(newMessage._id);
-        const { _id } = await conversation.save();
-        io.to(roomId).emit("receiveMsg", { msg: newMessage });
+        const convo = await conversation.save();
+        io.to(roomId).emit("newConvo", convo);
       }
       return;
     } else {

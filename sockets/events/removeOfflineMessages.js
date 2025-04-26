@@ -1,6 +1,6 @@
 const { deleteOfflineMessages } = require("../../Utils/redis");
 
-const removeOfflineMessages = async (userId, convoId, socket, io) => {
+const removeOfflineMessages = async (userId, convoId) => {
   await deleteOfflineMessages(userId, convoId);
 };
 

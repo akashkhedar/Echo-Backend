@@ -6,10 +6,11 @@ const offlineMessages = require("./events/offlineMessages");
 const readMsg = require("./events/readMsg");
 const sendMessage = require("./events/sendMessage");
 const removeOfflineMessages = require("./events/removeOfflineMessages");
+const newConversations = require("./events/newConversations");
 
 const onConnection = (socket, io) => {
   socket.on("joinChat", (userId) => {
-    joinChat(socket, io, userId);
+    joinChat(socket, userId);
   });
   socket.on("joinAllRooms", (rooms) => {
     joinAllRooms(socket, rooms);
@@ -21,10 +22,13 @@ const onConnection = (socket, io) => {
     readMsg(socket, io, msgId, chatId, roomId);
   });
   socket.on("offlineMessage", (receiver, convoId) => {
-    offlineMessages(receiver, convoId, socket, io);
+    offlineMessages(receiver, convoId);
   });
   socket.on("rmOfflineMsg", (userId, convoId) => {
-    removeOfflineMessages(userId, convoId, socket, io);
+    removeOfflineMessages(userId, convoId);
+  });
+  socket.on("newConvo", ({ sender, receiver }) => {
+    newConversations(sender, receiver, socket, io);
   });
   socket.on("leaveChat", (userId) => leaveChat(socket, io, userId));
 };

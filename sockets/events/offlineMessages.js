@@ -1,6 +1,6 @@
 const { storeOfflineMessages } = require("../../Utils/redis");
 
-const offlineMessages = async (receiver, convoId, socket, io) => {
+const offlineMessages = async (receiver, convoId) => {
   await storeOfflineMessages(receiver, convoId);
 };
 

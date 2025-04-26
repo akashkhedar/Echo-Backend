@@ -1,7 +1,7 @@
 const Message = require("../../models/message");
 const { checkSocketId } = require("../../Utils/redis");
 
-const readMsg = async (socket, io, msgId, chatId, roomId) => {
+const readMsg = async (io, msgId) => {
   const message = await Message.findByIdAndUpdate(msgId, { read: true });
   const senderId = message.sender.toString();
   const senderSocketId = await checkSocketId(senderId);
