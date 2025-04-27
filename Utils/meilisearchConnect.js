@@ -2,31 +2,38 @@ const { MeiliSearch } = require("meilisearch");
 const User = require("../models/user");
 
 const client = new MeiliSearch({
-  host: "https://meilisearch-sfl6.onrender.com",
-  apiKey: "mastermind@260204",
+  host: "https://meilisearch-v1-8-swzw.onrender.com", // your Render URL
+  apiKey: "frm8dmsaiu9gr449wxi1k1khncq7c1wy", // <-- must be passed!
 });
 
 const uploadBulk = async () => {
   const users = await User.find({});
 
-  await client.index("users").addDocuments(users, { primaryKey: "_id" });
+  await client.index("users").addDocuments(users);
 
   await client
     .index("users")
-    .updateSearchableAttributes(["fullname", "username"]);
+    .updateSearchableAttributes(["fullname", "username"])
+    .then((s) => console.log(s));
+};
 
-  console.log("Uploaded users and set searchable fields!");
+const getAllUser = async () => {
+  try {
+    console.log("hi");
+    const search = client.index("users").search("demo");
+    return search;
+  } catch (error) {
+    console.log(error.message);
+  }
 };
 
 const addUser = async (user) => {
-  await client.index("users").addDocuments(user, { primaryKey: "_id" });
+  await client.index("users").addDocuments(user);
 };
 
 const getUser = async (user) => {
-  console.log(user);
-  const result = await client.index("users").search(user);
-  console.log(result);
+  const result = await client.index("users").search(user, { limit: 10 });
   return result.hits;
 };
 
-module.exports = { uploadBulk, addUser, getUser };
+module.exports = { uploadBulk, addUser, getUser, getAllUser };

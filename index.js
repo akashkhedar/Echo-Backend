@@ -7,7 +7,7 @@ const connectToMongoose = require("./Utils/mongoConnect.js");
 const limiter = require("./middlewares/limiter.js");
 const { setupSocketIO } = require("./Utils/sockets");
 const dotenv = require("dotenv");
-const { uploadBulk } = require("./Utils/meilisearchConnect");
+const { uploadBulk, getAllUser } = require("./Utils/meilisearchConnect");
 
 dotenv.config();
 
@@ -17,7 +17,6 @@ const port = process.env.PORT;
 const { server } = setupSocketIO(app);
 
 connectToMongoose();
-uploadBulk();
 
 app.use(
   cors({
@@ -51,6 +50,10 @@ app.post("/deleteaccount", require("./routes/deleteAccount"));
 app.get("/fetch/followers/:id", require("./routes/fetchFollowers"));
 app.get("/fetch/following/:id", require("./routes/fetchFollowing"));
 app.get("/search", require("./routes/searchUser"));
+app.get("/upload/all", async (req, res) => {
+  const result = await uploadBulk();
+  res.json(result);
+});
 
 //POST ROUTES
 app.post("/upload/post", require("./routes/uploadPost"));
