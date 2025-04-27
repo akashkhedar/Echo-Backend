@@ -3,10 +3,11 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const cookieAuthentication = require("./middlewares/cookieAuthentication");
-const connectToMongoose = require("./mongoConnect");
+const connectToMongoose = require("./Utils/mongoConnect.js");
 const limiter = require("./middlewares/limiter.js");
 const { setupSocketIO } = require("./Utils/sockets");
 const dotenv = require("dotenv");
+const { uploadBulk } = require("./Utils/meilisearchConnect");
 
 dotenv.config();
 
@@ -16,6 +17,7 @@ const port = process.env.PORT;
 const { server } = setupSocketIO(app);
 
 connectToMongoose();
+uploadBulk();
 
 app.use(
   cors({
@@ -23,8 +25,6 @@ app.use(
     credentials: true, // Allow cookies and other credentials
   })
 );
-
-//https://meilisearch-sfl6.onrender.com
 
 app.use(cookieParser());
 app.use(express.json());
@@ -50,6 +50,7 @@ app.post("/updateprofile", require("./routes/updateProfile"));
 app.post("/deleteaccount", require("./routes/deleteAccount"));
 app.get("/fetch/followers/:id", require("./routes/fetchFollowers"));
 app.get("/fetch/following/:id", require("./routes/fetchFollowing"));
+app.get("/search", require("./routes/searchUser"));
 
 //POST ROUTES
 app.post("/upload/post", require("./routes/uploadPost"));

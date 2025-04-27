@@ -3,6 +3,7 @@ const User = require("../models/user");
 const { createAccessToken, createRefreshToken } = require("../Utils/cookie");
 const { storeRefreshToken } = require("../Utils/redis");
 const cache = require("../Utils/cache");
+const { addUser } = require("../Utils/meilisearchConnect");
 
 const verifyUser = async (req, res) => {
   const { code } = req.body;
@@ -39,6 +40,7 @@ const verifyUser = async (req, res) => {
     maxAge: 604800000,
   });
   res.status(200).json({ message: "Email verified" });
+  addUser(updatedUser);
 };
 
 module.exports = verifyUser;
