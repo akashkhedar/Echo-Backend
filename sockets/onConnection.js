@@ -46,8 +46,8 @@ const onConnection = (socket, io) => {
   socket.on("sendAnswer", ({ callerId, calleeId, answer }) => {
     sendAnswer(callerId, calleeId, answer, io);
   });
-  socket.on("sendIceCandidate", ({ sender, receiver, candidate }) => {
-    sendIceCandidate(sender, receiver, candidate, socket, io);
+  socket.on("sendIceCandidate", ({ callerId, calleeId, candidate }) => {
+    sendIceCandidate(callerId, calleeId, candidate, io);
   });
 
   socket.on("leaveChat", (userId) => leaveChat(socket, io, userId));

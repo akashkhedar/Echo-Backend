@@ -1,8 +1,8 @@
 const { checkSocketId } = require("../../Utils/redis");
 
 const sendAnswer = async (callerId, calleeId, answer, io) => {
-  const callerSocket = await checkSocketId(callerId);
-  io.to(callerSocket).emit("getAnswer", {
+  const calleeSocket = await checkSocketId(calleeId);
+  io.to(calleeSocket).emit("getAnswer", {
     callerId,
     calleeId,
     answer,
