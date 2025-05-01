@@ -1,8 +1,8 @@
 const { checkSocketId } = require("../../Utils/redis");
 
-const sendOffer = async (sender, receiver, offer, socket, io) => {
-  const receiverSocket = await checkSocketId(receiver);
-  socket.to(receiverSocket).emit("getOffer", { sender: sender, offer: offer });
+const sendOffer = async (callerId, calleeId, offer, io) => {
+  const calleeSocket = await checkSocketId(calleeId);
+  socket.to(calleeSocket).emit("getOffer", { callerId, calleeId, offer });
 };
 
 module.exports = sendOffer;

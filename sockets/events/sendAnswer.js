@@ -1,10 +1,11 @@
 const { checkSocketId } = require("../../Utils/redis");
 
-const sendAnswer = async (sender, receiver, answer, socket, io) => {
-  const receiverSocket = await checkSocketId(receiver);
-  socket.to(receiverSocket).emit("getAnswer", {
-    sender: sender,
-    answer: answer,
+const sendAnswer = async (callerId, calleeId, answer, io) => {
+  const callerSocket = await checkSocketId(callerId);
+  io.to(callerSocket).emit("getAnswer", {
+    callerId,
+    calleeId,
+    answer,
   });
 };
 
