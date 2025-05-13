@@ -11,6 +11,7 @@ const sendAnswer = require("./events/sendAnswer");
 const sendIceCandidate = require("./events/sendIceCandidate");
 const callUser = require("./events/callUser");
 const callAccepted = require("./events/callAccepted");
+const endCall = require("./events/endCall");
 
 const onConnection = (socket, io) => {
   socket.on("joinChat", (userId) => {
@@ -49,7 +50,9 @@ const onConnection = (socket, io) => {
   socket.on("sendIceCandidate", ({ callerId, calleeId, candidate }) => {
     sendIceCandidate(callerId, calleeId, candidate, io);
   });
-
+  socket.on("endCall", (callee) => {
+    endCall(callee, io);
+  });
   socket.on("leaveChat", (userId) => leaveChat(socket, io, userId));
 };
 
