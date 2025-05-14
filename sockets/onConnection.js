@@ -46,14 +46,14 @@ const onConnection = (socket, io) => {
   socket.on("sendOffer", ({ callerId, calleeId, offer, type }) => {
     sendOffer(callerId, calleeId, offer, type, io);
   });
-  socket.on("sendNewOffer", ({ callerId, calleeId, offer }) => {
-    sendNewOffer(callerId, calleeId, offer, io);
+  socket.on("sendNewOffer", ({ sender, receiver, newOffer }) => {
+    sendNewOffer(sender, receiver, newOffer, io);
   });
   socket.on("sendAnswer", ({ callerId, calleeId, answer }) => {
     sendAnswer(callerId, calleeId, answer, io);
   });
-  socket.on("sendNewAnswer", ({ callerId, calleeId, answer }) => {
-    sendNewAnswer(callerId, calleeId, answer, io);
+  socket.on("sendNewAnswer", ({ sender, receiver, answer }) => {
+    sendNewAnswer(sender, receiver, answer, io);
   });
   socket.on("sendIceCandidate", ({ callerId, calleeId, candidate }) => {
     sendIceCandidate(callerId, calleeId, candidate, io);
