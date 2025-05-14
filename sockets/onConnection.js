@@ -12,6 +12,8 @@ const sendIceCandidate = require("./events/sendIceCandidate");
 const callUser = require("./events/callUser");
 const callAccepted = require("./events/callAccepted");
 const endCall = require("./events/endCall");
+const sendNewAnswer = require("./events/sendNewAnswer");
+const sendNewOffer = require("./events/sendNewOffer");
 
 const onConnection = (socket, io) => {
   socket.on("joinChat", (userId) => {
@@ -35,17 +37,23 @@ const onConnection = (socket, io) => {
   socket.on("redirectConvo", ({ sender, receiver }) => {
     redirectConvo(sender, receiver, socket, io);
   });
-  socket.on("callUser", ({ callerId, calleeId }) => {
-    callUser(callerId, calleeId, io);
+  socket.on("callUser", ({ callerId, calleeId, type }) => {
+    callUser(callerId, calleeId, type, io);
   });
-  socket.on("acceptedCall", ({ callerId, calleeId }) => {
-    callAccepted(callerId, calleeId, io);
+  socket.on("acceptedCall", ({ callerId, calleeId, type }) => {
+    callAccepted(callerId, calleeId, type, io);
   });
-  socket.on("sendOffer", ({ callerId, calleeId, offer }) => {
-    sendOffer(callerId, calleeId, offer, io);
+  socket.on("sendOffer", ({ callerId, calleeId, offer, type }) => {
+    sendOffer(callerId, calleeId, offer, type, io);
+  });
+  socket.on("sendNewOffer", ({ callerId, calleeId, offer }) => {
+    sendNewOffer(callerId, calleeId, offer, io);
   });
   socket.on("sendAnswer", ({ callerId, calleeId, answer }) => {
     sendAnswer(callerId, calleeId, answer, io);
+  });
+  socket.on("sendNewAnswer", ({ callerId, calleeId, answer }) => {
+    sendNewAnswer(callerId, calleeId, answer, io);
   });
   socket.on("sendIceCandidate", ({ callerId, calleeId, candidate }) => {
     sendIceCandidate(callerId, calleeId, candidate, io);
