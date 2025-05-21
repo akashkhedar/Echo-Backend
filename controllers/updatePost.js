@@ -12,7 +12,6 @@ const updatePost = async (req, res) => {
       obj[key] = updatedFields[key];
       return obj;
     }, {});
-  console.log(id, userId);
 
   const updatedPost = await Post.findOneAndUpdate(
     { _id: id, userId },
