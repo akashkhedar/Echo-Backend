@@ -77,7 +77,7 @@ const sendMessage = async (
         conversation.messages.push(newMessage._id);
         await conversation.save();
         await storeOfflineMessages(receiverId, conversation._id, username);
-        io.to(socket.id).emit("receiveMsg", newMessage);
+        io.emit("receiveMsg", newMessage);
         return;
       }
       const newMessage = new Message({
@@ -92,9 +92,7 @@ const sendMessage = async (
       await newMessage.save();
       conversation.messages.push(newMessage._id);
       await conversation.save();
-      io.timeout(200)
-        .to(conversation.roomId)
-        .emit("receiveMsg", newMessage, username);
+      io.emit("receiveMsg", newMessage, username);
       return;
     }
   } catch (error) {

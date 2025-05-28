@@ -1,7 +1,14 @@
+const User = require("../../models/user");
 const { checkSocketId } = require("../../Utils/redis");
 
 const callUser = async (callerId, calleeId, type, io) => {
   const calleeSocket = await checkSocketId(calleeId);
-  io.to(calleeSocket).emit("receiveCall", { callerId, calleeId, type });
+  const { username } = await User.findById(callerId);
+  io.to(calleeSocket).emit("receiveCall", {
+    callerName: username,
+    callerId,
+    calleeId,
+    type,
+  });
 };
 module.exports = callUser;
