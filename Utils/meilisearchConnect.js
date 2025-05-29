@@ -36,4 +36,9 @@ const getUser = async (user) => {
   return result.hits;
 };
 
-module.exports = { uploadBulk, addUser, getUser, getAllUser };
+const existingUser = async (username) => {
+  const res = await client.index("users").search(username, { limit: 1 });
+  return res;
+};
+
+module.exports = { uploadBulk, addUser, getUser, getAllUser, existingUser };

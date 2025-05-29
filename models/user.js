@@ -21,6 +21,9 @@ const userSchema = new Schema(
     },
     username: {
       type: String,
+      unique: true,
+      trim: true,
+      lowercase: true,
     },
     fullname: {
       type: String,
@@ -32,6 +35,12 @@ const userSchema = new Schema(
       type: String,
     },
     bio: {
+      type: String,
+    },
+    website: {
+      type: String,
+    },
+    interests: {
       type: String,
     },
     follower: [

@@ -24,7 +24,13 @@ const updateProfile = async (req, res) => {
       return obj;
     }, {});
 
-  console.log(fieldsToUpdate);
+  const existingUser = await User.findOne({
+    username: fieldsToUpdate.username,
+  });
+
+  if (existingUser && existingUser._id.toString() !== userId) {
+    return res.status(409).json({ message: "Username already taken." });
+  }
 
   const user = await User.findOneAndUpdate(
     { _id: userId },
@@ -32,11 +38,10 @@ const updateProfile = async (req, res) => {
     { returnDocument: "after" }
   );
 
-  console.log(user);
-
   if (!user) {
     return res.status(401).json({ message: "User not found!" });
   }
+
   const userInfo = {
     userId: user._id,
     username: user.username,

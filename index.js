@@ -50,6 +50,7 @@ app.post("/deleteaccount", require("./routes/deleteAccount"));
 app.get("/fetch/followers/:id", require("./routes/fetchFollowers"));
 app.get("/fetch/following/:id", require("./routes/fetchFollowing"));
 app.get("/search", require("./routes/searchUser"));
+app.get("/check/username", require("./routes/checkUsername"));
 app.get("/upload/all", async (req, res) => {
   const result = await uploadBulk();
   res.json(result);
