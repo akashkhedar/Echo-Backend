@@ -4,17 +4,16 @@ const { createAccessToken, createRefreshToken } = require("../Utils/cookie");
 const { storeRefreshToken } = require("../Utils/redis");
 
 const updateProfile = async (req, res) => {
-  const { email } = req.user;
+  const { userId } = req.user;
   const updatedFields = req.body;
-  console.log(req.body);
   const allowedFields = [
     "username",
     "fullname",
     "dob",
     "gender",
     "bio",
-    "interest",
-    "websites",
+    "interests",
+    "website",
     "profileImage",
   ];
 
@@ -24,11 +23,17 @@ const updateProfile = async (req, res) => {
       obj[key] = updatedFields[key];
       return obj;
     }, {});
+
+  console.log(fieldsToUpdate);
+
   const user = await User.findOneAndUpdate(
-    { email: email },
+    { _id: userId },
     { $set: fieldsToUpdate },
     { returnDocument: "after" }
   );
+
+  console.log(user);
+
   if (!user) {
     return res.status(401).json({ message: "User not found!" });
   }
@@ -54,7 +59,7 @@ const updateProfile = async (req, res) => {
     sameSite: "None",
     maxAge: 604800000,
   });
-  res.status(200).json({ message: "Profile updated" });
+  res.status(200).json({ user: user });
 };
 
 module.exports = updateProfile;
