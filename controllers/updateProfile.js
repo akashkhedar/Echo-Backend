@@ -1,15 +1,20 @@
 const User = require("../models/user");
 const cache = require("../Utils/cache");
+const { createAccessToken, createRefreshToken } = require("../Utils/cookie");
+const { storeRefreshToken } = require("../Utils/redis");
 
 const updateProfile = async (req, res) => {
   const { email } = req.user;
   const updatedFields = req.body;
+  console.log(req.body);
   const allowedFields = [
     "username",
     "fullname",
     "dob",
     "gender",
     "bio",
+    "interest",
+    "websites",
     "profileImage",
   ];
 

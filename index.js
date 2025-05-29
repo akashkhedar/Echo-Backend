@@ -45,7 +45,7 @@ app.post(
   limiter,
   require("./routes/updateForgetPass.js")
 );
-app.post("/updateprofile", require("./routes/updateProfile"));
+app.post("/update/profile", require("./routes/updateProfile"));
 app.post("/deleteaccount", require("./routes/deleteAccount"));
 app.get("/fetch/followers/:id", require("./routes/fetchFollowers"));
 app.get("/fetch/following/:id", require("./routes/fetchFollowing"));
