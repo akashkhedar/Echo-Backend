@@ -61,6 +61,7 @@ app.post("/upload/post", require("./routes/uploadPost"));
 app.patch("/update/post/:id", require("./routes/updatePost"));
 app.delete("/delete/post/:id", require("./routes/deletePost"));
 app.get("/feed/post", require("./routes/feedPost"));
+app.get("/fetch/posts", require("./routes/fetchPosts"));
 
 //CHAT ROUTES
 app.get("/chat/list", require("./routes/chatList"));

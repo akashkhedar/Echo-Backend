@@ -23,8 +23,6 @@ const updatePost = async (req, res) => {
       .status(401)
       .json({ message: "Post not found/User unauthorized" });
   }
-  console.log(updatePost);
-
   res.status(200).json({ message: "Post updated" });
 };
 

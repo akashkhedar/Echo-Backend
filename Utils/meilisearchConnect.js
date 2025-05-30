@@ -9,12 +9,18 @@ const client = new MeiliSearch({
 const uploadBulk = async () => {
   const users = await User.find({});
 
-  await client.index("users").addDocuments(users);
+  // Upload documents with _id as the primary key
+  await client.index("users").addDocuments(users, { primaryKey: "_id" });
 
+  // Set searchable attributes
   await client
     .index("users")
-    .updateSearchableAttributes(["fullname", "username"])
-    .then((s) => console.log(s));
+    .updateSearchableAttributes(["fullname", "username"]);
+
+  // Set filterable attributes
+  await client.index("users").updateFilterableAttributes(["username"]);
+
+  console.log("Users uploaded and index settings updated.");
 };
 
 const getAllUser = async () => {
@@ -36,9 +42,15 @@ const getUser = async (user) => {
   return result.hits;
 };
 
-const existingUser = async (username) => {
-  const res = await client.index("users").search(username, { limit: 1 });
-  return res;
+const existingUser = async (username, userId) => {
+  const res = await client.index("users").search("", {
+    filter: `username = "${username.toLowerCase()}"`,
+    limit: 1,
+  });
+
+  const hit = res.hits[0];
+
+  return hit && hit._id !== userId;
 };
 
 module.exports = { uploadBulk, addUser, getUser, getAllUser, existingUser };
