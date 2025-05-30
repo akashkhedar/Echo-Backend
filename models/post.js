@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const User = require("./user");
+const user = require("./user");
 
 const { Schema } = mongoose;
 
@@ -7,7 +7,7 @@ const postSchema = new Schema(
   {
     userId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: User,
+      ref: user,
       required: true,
     },
     caption: {
@@ -25,11 +25,11 @@ const postSchema = new Schema(
     },
     likes: {
       type: [mongoose.Schema.Types.ObjectId],
-      ref: User,
+      ref: user,
     },
     comments: {
       type: [mongoose.Schema.Types.ObjectId],
-      ref: User,
+      ref: user,
     },
     createdAt: {
       type: Date,
@@ -39,6 +39,6 @@ const postSchema = new Schema(
   { timeStamps: true }
 );
 
-const Post = mongoose.model("posts", postSchema);
+const post = mongoose.model("posts", postSchema);
 
-module.exports = Post;
+module.exports = post;

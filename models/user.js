@@ -46,13 +46,13 @@ const userSchema = new Schema(
     follower: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
+        ref: "user",
       },
     ],
     following: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
+        ref: "user",
       },
     ],
     profileImage: {
@@ -73,5 +73,5 @@ userSchema.pre("findOneAndUpdate", async function (next) {
   next();
 });
 
-const User = mongoose.model("user", userSchema);
-module.exports = User;
+const user = mongoose.model("user", userSchema);
+module.exports = user;

@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const User = require("./user");
+const user = require("./user");
 const Message = require("./message");
 
 const ConversationSchema = new mongoose.Schema(
@@ -7,7 +7,7 @@ const ConversationSchema = new mongoose.Schema(
     participants: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: User,
+        ref: user,
         required: true,
       },
     ],
@@ -24,6 +24,6 @@ const ConversationSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const Conversation = mongoose.model("Conversation", ConversationSchema);
+const conversation = mongoose.model("conversation", ConversationSchema);
 
-module.exports = Conversation;
+module.exports = conversation;

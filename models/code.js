@@ -1,10 +1,10 @@
 const mongoose = require("mongoose");
-const User = require("./user");
+const user = require("./user");
 
 const codeSchema = new mongoose.Schema({
   email: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: User,
+    ref: user,
     required: true,
     unique: true,
   },
@@ -19,6 +19,6 @@ const codeSchema = new mongoose.Schema({
   },
 });
 
-const Code = mongoose.model("Code", codeSchema);
+const code = mongoose.model("code", codeSchema);
 
-module.exports = Code;
+module.exports = code;
