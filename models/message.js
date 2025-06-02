@@ -1,16 +1,16 @@
 const mongoose = require("mongoose");
-const user = require("./user");
+const User = require("./user");
 
 const messageModel = new mongoose.Schema(
   {
     sender: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: user,
+      ref: "user",
       required: true,
     },
     receiver: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: user,
+      ref: "user",
       required: true,
       maxlength: 1000,
       trim: true,
@@ -20,7 +20,7 @@ const messageModel = new mongoose.Schema(
     },
     conversationId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Conversation",
+      ref: "conversation",
     },
     message: {
       type: String,
@@ -45,6 +45,6 @@ const messageModel = new mongoose.Schema(
   { timestamps: true }
 );
 
-const message = mongoose.model("message", messageModel);
+const Message = mongoose.model("message", messageModel);
 
-module.exports = message;
+module.exports = Message;

@@ -55,6 +55,10 @@ app.get("/upload/all", async (req, res) => {
   const result = await uploadBulk();
   res.json(result);
 });
+app.put("/user/remove/:userIdToRemove", require("./routes/removeFollower"));
+app.put("/user/unfollow/:userIdToRemove", require("./routes/unfollowUser"));
+
+app.put("/user/follow/:id", require("./routes/followUser"));
 
 //POST ROUTES
 app.post("/upload/post", require("./routes/uploadPost"));
@@ -62,6 +66,9 @@ app.patch("/update/post/:id", require("./routes/updatePost"));
 app.delete("/delete/post/:id", require("./routes/deletePost"));
 app.get("/feed/post", require("./routes/feedPost"));
 app.get("/fetch/posts", require("./routes/fetchPosts"));
+app.put("/like/post/:id", require("./routes/likePost"));
+app.get("/fetch/comments/:id", require("./routes/fetchComments"));
+app.post("/post/comment/:id", require("./routes/postComment"));
 
 //CHAT ROUTES
 app.get("/chat/list", require("./routes/chatList"));

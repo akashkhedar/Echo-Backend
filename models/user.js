@@ -67,11 +67,12 @@ const userSchema = new Schema(
 userSchema.pre("findOneAndUpdate", async function (next) {
   const update = this.getUpdate();
   if (update && update.password) {
+    console.log("Hi");
     update.password = await bcrypt.hash(update.password, 10);
     this.setUpdate(update);
   }
   next();
 });
 
-const user = mongoose.model("user", userSchema);
-module.exports = user;
+const User = mongoose.model("user", userSchema);
+module.exports = User;
