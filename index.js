@@ -20,8 +20,8 @@ connectToMongoose();
 
 app.use(
   cors({
-    origin: "http://localhost:3000", // Frontend URL
-    credentials: true, // Allow cookies and other credentials
+    origin: "http://localhost:3000",
+    credentials: true,
   })
 );
 
