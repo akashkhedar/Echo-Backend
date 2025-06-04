@@ -1,4 +1,5 @@
 const { createClient } = require("redis");
+const randomstring = require("randomstring");
 require("dotenv").config();
 
 const client = createClient({
@@ -95,6 +96,22 @@ const deleteOfflineMessages = async (userId) => {
   return;
 };
 
+const createResetTkn = async (data) => {
+  const token = randomstring.generate(20);
+  await client.set(`resetTk:${token}`, data, { EX: 900 });
+  return token;
+};
+
+const verifyResetTkn = async (token) => {
+  console.log(token);
+  const user = await client.get(`resetTk:${token}`);
+  console.log(user);
+  if (user) {
+    return user;
+  }
+  return false;
+};
+
 module.exports = {
   storeRefreshToken,
   validateRefreshToken,
@@ -105,4 +122,6 @@ module.exports = {
   storeOfflineMessages,
   getOfflineMessages,
   deleteOfflineMessages,
+  createResetTkn,
+  verifyResetTkn,
 };

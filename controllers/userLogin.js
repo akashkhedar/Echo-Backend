@@ -6,6 +6,7 @@ const cache = require("../Utils/cache");
 
 const userLogin = async (req, res) => {
   const { user, userPassword } = req.body;
+  console.log(user, userPassword);
   const profile = await User.findOne({
     $or: [{ username: user }, { email: user }],
   });

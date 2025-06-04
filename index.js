@@ -38,13 +38,12 @@ app.post("/user/logout", require("./routes/userLogout"));
 
 //USER ROUTES
 app.post("/user/profile", require("./routes/userProfile"));
-app.post("/forgetpassword", limiter, require("./routes/forgetPassword"));
-app.post("/updatepassword", require("./routes/updatePassword"));
-app.post(
-  "/forgetpassword/update/:code",
-  limiter,
-  require("./routes/updateForgetPass.js")
+app.post("/forget-password", require("./routes/forgetPassword"));
+app.get(
+  "/auth/verify-reset-token/:token",
+  require("./routes/verifyResetToken")
 );
+app.post("/update-password/:token", require("./routes/updatePassword"));
 app.post("/update/profile", require("./routes/updateProfile"));
 app.post("/deleteaccount", require("./routes/deleteAccount"));
 app.get("/fetch/followers/:id", require("./routes/fetchFollowers"));
@@ -57,7 +56,6 @@ app.get("/upload/all", async (req, res) => {
 });
 app.put("/user/remove/:userIdToRemove", require("./routes/removeFollower"));
 app.put("/user/unfollow/:userIdToRemove", require("./routes/unfollowUser"));
-
 app.put("/user/follow/:id", require("./routes/followUser"));
 
 //POST ROUTES

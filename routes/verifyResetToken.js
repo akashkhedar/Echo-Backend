@@ -2,9 +2,9 @@ const { Router } = require("express");
 
 const router = Router();
 
-router.post(
-  "/update-password/:token",
-  require("../controllers/updatePassword")
+router.get(
+  "/auth/verify-reset-token/:token",
+  require("../controllers/verifyResetToken")
 );
 
 module.exports = router;

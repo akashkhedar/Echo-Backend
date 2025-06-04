@@ -9,7 +9,9 @@ const cookieAuthentication = async (req, res, next) => {
     "/user/create",
     "/user/verify",
     "/user/login",
-    "/forgetpassword",
+    "/forget-password",
+    "/auth/verify-reset-token/:token",
+    "/update-password/:token",
     "/forgetpassword/update/:code",
   ];
   const isUnprotectedRoute = (path) => {
