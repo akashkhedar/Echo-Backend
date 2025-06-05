@@ -3,7 +3,6 @@ const { checkSocketId } = require("../../Utils/redis");
 
 const readMsg = async (io, msgId) => {
   try {
-    console.log(msgId);
     const message = await Message.findByIdAndUpdate(
       { _id: msgId },
       { read: true }

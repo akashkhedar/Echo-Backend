@@ -103,9 +103,7 @@ const createResetTkn = async (data) => {
 };
 
 const verifyResetTkn = async (token) => {
-  console.log(token);
   const user = await client.get(`resetTk:${token}`);
-  console.log(user);
   if (user) {
     return user;
   }

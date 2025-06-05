@@ -25,7 +25,6 @@ const uploadBulk = async () => {
 
 const getAllUser = async () => {
   try {
-    console.log("hi");
     const search = client.index("users").search("demo");
     return search;
   } catch (error) {

@@ -44,6 +44,7 @@ app.get(
   require("./routes/verifyResetToken")
 );
 app.post("/update-password/:token", require("./routes/updatePassword"));
+app.post("/update/logged/password", require("./routes/loggedPassword"));
 app.post("/update/profile", require("./routes/updateProfile"));
 app.post("/deleteaccount", require("./routes/deleteAccount"));
 app.get("/fetch/followers/:id", require("./routes/fetchFollowers"));
@@ -60,7 +61,6 @@ app.put("/user/follow/:id", require("./routes/followUser"));
 
 //POST ROUTES
 app.post("/upload/post", require("./routes/uploadPost"));
-app.patch("/update/post/:id", require("./routes/updatePost"));
 app.delete("/delete/post/:id", require("./routes/deletePost"));
 app.get("/feed/post", require("./routes/feedPost"));
 app.get("/fetch/posts", require("./routes/fetchPosts"));
@@ -70,7 +70,6 @@ app.post("/post/comment/:id", require("./routes/postComment"));
 
 //CHAT ROUTES
 app.get("/chat/list", require("./routes/chatList"));
-app.post("/send/msg/:id", require("./routes/sendMsg"));
 app.get("/fetch/chats/:id", require("./routes/fetchChats"));
 
 server.listen(port, () => console.log("Server Started!"));

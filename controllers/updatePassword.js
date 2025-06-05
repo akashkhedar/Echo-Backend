@@ -8,7 +8,6 @@ const updatePassword = async (req, res) => {
     const { newPassword } = req.body;
 
     const email = await verifyResetTkn(token);
-    console.log(email);
     const user = await User.findOne({
       email: { $regex: new RegExp(email, "i") },
     });

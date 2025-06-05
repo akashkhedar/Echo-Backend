@@ -6,16 +6,16 @@ const cache = require("../Utils/cache");
 
 const userLogin = async (req, res) => {
   const { user, userPassword } = req.body;
-  console.log(user, userPassword);
   const profile = await User.findOne({
     $or: [{ username: user }, { email: user }],
   });
   if (!profile) {
     return res.status(401).json({ message: "User not found" });
   }
-  const password = await bcrypt.compare(userPassword, profile.password);
-  if (!password) {
-    return res.status(401).json({ message: "User not found" });
+
+  const isMatch = await bcrypt.compare(userPassword, profile.password);
+  if (!isMatch) {
+    return res.status(401).json({ message: "Wrong Password" });
   }
   const userInfo = {
     userId: profile._id,
