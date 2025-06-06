@@ -1,4 +1,3 @@
-const { verifyToken } = require("../Utils/cookie");
 const User = require("../models/user");
 const { storeRefreshToken } = require("../Utils/redis");
 const { createAccessToken, createRefreshToken } = require("../Utils/cookie");
@@ -17,6 +16,7 @@ const userProfile = async (req, res) => {
         dob: dob,
         gender: gender,
         profileImage: pic_url,
+        profileStatus: true,
       },
       { returnDocument: "after" }
     );
@@ -28,6 +28,7 @@ const userProfile = async (req, res) => {
       username: user.username,
       fullname: user.fullname,
       profileImage: user.profileImage,
+      profileStatus: true,
     };
     const accessToken = createAccessToken(userInfo);
     const refreshToken = await createRefreshToken();

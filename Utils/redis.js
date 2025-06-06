@@ -35,6 +35,15 @@ const storeRefreshToken = async (token, data) => {
   await client.set(`refreshTk:${token}`, JSON.stringify(data), { EX: 604800 });
 };
 
+const storeVerificationCode = async (email, code) => {
+  await client.set(`verificationCode:${code}`, email, { EX: 900 });
+};
+
+const verifyCode = async (code) => {
+  const email = await client.get(`verificationCode:${code}`);
+  return email;
+};
+
 const validateRefreshToken = async (refreshToken) => {
   const userData = await client.get(`refreshTk:${refreshToken}`);
   if (!userData) {
@@ -111,6 +120,8 @@ const verifyResetTkn = async (token) => {
 };
 
 module.exports = {
+  storeVerificationCode,
+  verifyCode,
   storeRefreshToken,
   validateRefreshToken,
   deleteRefreshtoken,

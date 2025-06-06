@@ -13,7 +13,10 @@ const userSchema = new Schema(
     },
     isVerified: {
       type: Boolean,
-      required: true,
+      default: false,
+    },
+    profileStatus: {
+      type: Boolean,
       default: false,
     },
     password: {

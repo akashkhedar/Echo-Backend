@@ -13,6 +13,7 @@ const cookieAuthentication = async (req, res, next) => {
     "/auth/verify-reset-token/:token",
     "/update-password/:token",
     "/forgetpassword/update/:code",
+    "/upload/all",
   ];
   const isUnprotectedRoute = (path) => {
     return unprotectedRoutes.some((route) => match(route)(path));
@@ -32,11 +33,15 @@ const cookieAuthentication = async (req, res, next) => {
     return res.status(401).end("Login Again");
   }
   if (!accessCookie) {
+    if (!verifyRefreshToken.profileStatus) {
+      return res.status(401).end("Profile incomplete");
+    }
     const userInfo = {
       userId: verifyRefreshToken.userId,
       username: verifyRefreshToken.username,
       fullname: verifyRefreshToken.fullname,
       profileImage: verifyRefreshToken.profileImage,
+      profileStatus: verifyRefreshToken.profileStatus,
     };
     const newAccessToken = createAccessToken(userInfo);
     cache.set(newAccessToken, userInfo, 3600);
@@ -52,6 +57,9 @@ const cookieAuthentication = async (req, res, next) => {
   const userInfo = cache.get(accessCookie);
   if (!userInfo) {
     const user = verifyAccessToken(accessCookie);
+    if (!user.profileStatus && req.path === "/check/username") {
+      return res.status(401).end("Profile incomplete");
+    }
     if (!user) {
       return res.status(401).end("Login Again");
     }
