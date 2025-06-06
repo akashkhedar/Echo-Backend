@@ -21,7 +21,7 @@ connectToMongoose();
 
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: "https://echo-frontend-w607.onrender.com",
     credentials: true,
   })
 );
