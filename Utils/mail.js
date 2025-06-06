@@ -32,7 +32,7 @@ const mailService = (email, code, routePath) => {
 
   var mailOptions = {
     from: "akashkhedar262@gmail.com",
-    to: "akashkhedar262@gmail.com",
+    to: email,
     subject:
       routePath === "/user/create"
         ? "Account Verification Code"

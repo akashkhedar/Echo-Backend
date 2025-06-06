@@ -2,13 +2,14 @@ const User = require("../models/user");
 const { deleteRefreshtoken } = require("../Utils/redis");
 const cache = require("../Utils/cache");
 const bcrypt = require("bcrypt");
+const Conversation = require("../models/conversation");
+const Message = require("../models/message");
 
 const deleteAccount = async (req, res) => {
   try {
-    const { email } = req.user;
+    const userId = req.user.userId;
     const password = req.body.password;
-    const user = await User.findOne({ email: email });
-    console.log(user);
+    const user = await User.findById({ _id: userId });
     if (!user) {
       res.status(401).end("Error");
     }
@@ -19,6 +20,8 @@ const deleteAccount = async (req, res) => {
     const refreshCookie = req.cookies?.refreshToken;
     const accessToken = req.cookies?.accessToken;
     await deleteRefreshtoken(refreshCookie);
+    await Conversation.deleteMany({ participants: userId });
+    await Message.deleteMany({ sender: userId });
     cache.del(accessToken);
     await user.deleteOne();
     res.status(200).json({ message: "Success" });
