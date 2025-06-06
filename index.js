@@ -16,6 +16,7 @@ const port = process.env.PORT;
 
 const { server } = setupSocketIO(app);
 
+uploadBulk();
 connectToMongoose();
 
 app.use(
@@ -51,10 +52,6 @@ app.get("/fetch/followers/:id", require("./routes/fetchFollowers"));
 app.get("/fetch/following/:id", require("./routes/fetchFollowing"));
 app.get("/search", require("./routes/searchUser"));
 app.get("/check/username", require("./routes/checkUsername"));
-app.get("/upload/all", async (req, res) => {
-  const result = await uploadBulk();
-  res.json(result);
-});
 app.put("/user/remove/:userIdToRemove", require("./routes/removeFollower"));
 app.put("/user/unfollow/:userIdToRemove", require("./routes/unfollowUser"));
 app.put("/user/follow/:id", require("./routes/followUser"));
