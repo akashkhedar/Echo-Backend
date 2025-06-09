@@ -54,13 +54,13 @@ const updateProfile = async (req, res) => {
   cache.set(accessToken, userInfo, 3600);
   res.cookie("accessToken", accessToken, {
     httpOnly: true,
-    secure: false,
+    secure: true,
     sameSite: "None",
     maxAge: 3600000,
   });
   res.cookie("refreshToken", refreshToken, {
     httpOnly: true,
-    secure: false,
+    secure: true,
     sameSite: "None",
     maxAge: 604800000,
   });

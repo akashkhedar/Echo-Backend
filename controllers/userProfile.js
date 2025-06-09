@@ -37,13 +37,13 @@ const userProfile = async (req, res) => {
     const info = cache.get(accessToken);
     res.cookie("accessToken", accessToken, {
       httpOnly: true,
-      secure: false,
+      secure: true,
       sameSite: "None",
       maxAge: 3600000,
     });
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
-      secure: false,
+      secure: true,
       sameSite: "None",
       maxAge: 604800000,
     });
