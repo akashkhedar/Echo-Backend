@@ -19,8 +19,6 @@ const uploadBulk = async () => {
 
   // Set filterable attributes
   await client.index("users").updateFilterableAttributes(["username"]);
-
-  console.log("Users uploaded and index settings updated.");
 };
 
 const getAllUser = async () => {

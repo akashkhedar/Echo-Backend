@@ -31,6 +31,12 @@ app.use(express.json());
 app.use(cookieAuthentication);
 app.use(express.urlencoded({ extended: true }));
 
+//ADMIN ROUTE
+app.post("/upload/all", async (req, res) => {
+  uploadBulk();
+  res.status(200).json({ message: "Documents uploaded" });
+});
+
 //AUTHENTICATION ROUTES
 app.post("/user/create", limiter, require("./routes/userCreate"));
 app.post("/user/verify", require("./routes/verifyUser"));
