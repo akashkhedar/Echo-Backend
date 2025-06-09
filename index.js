@@ -11,6 +11,8 @@ const { uploadBulk, getAllUser } = require("./Utils/meilisearchConnect");
 
 dotenv.config();
 
+app.set("trust proxy", 1);
+
 const app = express();
 const port = process.env.PORT;
 
@@ -31,7 +33,7 @@ app.use(cookieAuthentication);
 app.use(express.urlencoded({ extended: true }));
 
 //ADMIN ROUTE
-app.post("/upload/all", async (req, res) => {
+app.get("/upload/all", async (req, res) => {
   uploadBulk();
   res.status(200).json({ message: "Documents uploaded" });
 });
