@@ -11,12 +11,12 @@ const { uploadBulk, getAllUser } = require("./Utils/meilisearchConnect");
 
 dotenv.config();
 
-app.set("trust proxy", 1);
-
 const app = express();
 const port = process.env.PORT;
 
 const { server } = setupSocketIO(app);
+
+app.set("trust proxy", 1);
 
 connectToMongoose();
 
