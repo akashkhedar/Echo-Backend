@@ -16,7 +16,6 @@ const port = process.env.PORT;
 
 const { server } = setupSocketIO(app);
 
-uploadBulk();
 connectToMongoose();
 
 app.use(
