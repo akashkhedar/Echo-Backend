@@ -1,9 +1,9 @@
 const Post = require("../models/post");
 
 const likePost = async (req, res) => {
-  const userId = req.user.userId;
-  const postId = req.params.id;
   try {
+    const userId = req.user.userId;
+    const postId = req.params.id;
     const targetPost = await Post.findById(postId);
     if (!targetPost) {
       return res.status(404).json({ message: "Post not found" });

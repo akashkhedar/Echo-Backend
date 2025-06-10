@@ -1,10 +1,10 @@
 const User = require("../models/user");
 
 const followUser = async (req, res) => {
-  const currentUserId = req.user.userId;
-  const targetUserId = req.params.id;
-
   try {
+    const currentUserId = req.user.userId;
+    const targetUserId = req.params.id;
+
     const user = await User.findOneAndUpdate();
     const currentUserUpdate = User.updateOne(
       { _id: currentUserId },

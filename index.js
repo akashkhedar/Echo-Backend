@@ -20,9 +20,21 @@ app.set("trust proxy", 1);
 
 connectToMongoose();
 
+const allowedOrigins = [
+  "http://localhost:3000",
+  "https://echo-frontend-w607.onrender.com",
+];
+
 app.use(
   cors({
-    origin: "https://echo-frontend-w607.onrender.com",
+    origin: function (origin, callback) {
+      // Allow requests with no origin (like mobile apps or curl)
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
   })
 );
@@ -39,20 +51,10 @@ app.get("/upload/all", async (req, res) => {
 });
 
 //AUTHENTICATION ROUTES
-app.post("/user/create", limiter, require("./routes/userCreate"));
-app.post("/user/verify", require("./routes/verifyUser"));
-app.post("/user/login", limiter, require("./routes/userLogin"));
-app.post("/user/logout", require("./routes/userLogout"));
+app.use("/api/auth", require("./routes/authRoutes"));
 
 //USER ROUTES
 app.post("/user/profile", require("./routes/userProfile"));
-app.post("/forget-password", require("./routes/forgetPassword"));
-app.get(
-  "/auth/verify-reset-token/:token",
-  require("./routes/verifyResetToken")
-);
-app.post("/update-password/:token", require("./routes/updatePassword"));
-app.post("/update/logged/password", require("./routes/loggedPassword"));
 app.post("/update/profile", require("./routes/updateProfile"));
 app.post("/deleteaccount", require("./routes/deleteAccount"));
 app.get("/fetch/followers/:id", require("./routes/fetchFollowers"));

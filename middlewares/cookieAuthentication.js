@@ -30,7 +30,7 @@ const cookieAuthentication = async (req, res, next) => {
   req.user = null;
   const verifyRefreshToken = await validateRefreshToken(refreshCookie);
   if (!verifyRefreshToken) {
-    return res.status(401).end("Login Again");
+    return res.status(401).end("Refresh Token false");
   }
   if (!accessCookie) {
     if (!verifyRefreshToken.profileStatus) {

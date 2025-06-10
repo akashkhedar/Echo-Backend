@@ -2,10 +2,10 @@ const Comment = require("../models/comment");
 const Post = require("../models/post");
 
 const postComment = async (req, res) => {
-  const userId = req.user.userId;
-  const targetPost = req.params.id;
-  const { comment } = req.body;
   try {
+    const userId = req.user.userId;
+    const targetPost = req.params.id;
+    const { comment } = req.body;
     const post = await Post.findById(targetPost);
     if (!post) {
       return res.status(404).json("Post not found!");

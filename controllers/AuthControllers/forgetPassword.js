@@ -1,7 +1,6 @@
-const User = require("../models/user");
-const mailService = require("../Utils/mail");
-const { createAccessToken } = require("../Utils/cookie");
-const { createResetTkn } = require("../Utils/redis");
+const User = require("../../models/user");
+const mailService = require("../../Utils/mail");
+const { createResetTkn } = require("../../Utils/redis");
 
 const forgetPassword = async (req, res) => {
   try {

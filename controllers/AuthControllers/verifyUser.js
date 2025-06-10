@@ -1,8 +1,8 @@
-const User = require("../models/user");
-const { createAccessToken, createRefreshToken } = require("../Utils/cookie");
-const { storeRefreshToken, verifyCode } = require("../Utils/redis");
-const cache = require("../Utils/cache");
-const { addUser } = require("../Utils/meilisearchConnect");
+const User = require("../../models/user");
+const { createAccessToken, createRefreshToken } = require("../../Utils/cookie");
+const { storeRefreshToken, verifyCode } = require("../../Utils/redis");
+const cache = require("../../Utils/cache");
+const { addUser } = require("../../Utils/meilisearchConnect");
 
 const verifyUser = async (req, res) => {
   try {

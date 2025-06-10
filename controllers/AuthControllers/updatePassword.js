@@ -1,6 +1,6 @@
-const User = require("../models/user");
+const User = require("../../models/user");
 const bcrypt = require("bcrypt");
-const { verifyResetTkn } = require("../Utils/redis");
+const { verifyResetTkn } = require("../../Utils/redis");
 
 const updatePassword = async (req, res) => {
   try {
