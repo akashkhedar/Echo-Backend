@@ -4,7 +4,7 @@ const path = require("path");
 
 const mailService = (email, code, routePath) => {
   let emailHTML;
-  if (routePath === "/user/create") {
+  if (routePath === "/create") {
     const templatePath = path.join(
       __dirname,
       "../public/templates/verifyEmail.html"
@@ -34,7 +34,7 @@ const mailService = (email, code, routePath) => {
     from: "akashkhedar262@gmail.com",
     to: email,
     subject:
-      routePath === "/user/create"
+      routePath === "/create"
         ? "Account Verification Code"
         : "Forget Password?",
     html: emailHTML,

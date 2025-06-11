@@ -5,14 +5,13 @@ const cache = require("../Utils/cache");
 
 const cookieAuthentication = async (req, res, next) => {
   const unprotectedRoutes = [
-    "/user/create",
-    "/user/verify",
-    "/user/login",
-    "/forget-password",
-    "/auth/verify-reset-token/:token",
-    "/update-password/:token",
-    "/forgetpassword/update/:code",
-    "/upload/all",
+    "/api/auth/create",
+    "/api/auth/verify",
+    "/api/auth/login",
+    "/api/auth/forget-password",
+    "/api/auth/verify-reset-token/:token",
+    "/api/auth/update-password/:token",
+    "/api/admin/upload/all",
   ];
   const isUnprotectedRoute = (path) => {
     return unprotectedRoutes.some((route) => match(route)(path));
