@@ -1,4 +1,4 @@
-const Conversation = require("../models/conversation");
+const Conversation = require("../../models/conversation");
 
 const fetchChats = async (req, res) => {
   try {

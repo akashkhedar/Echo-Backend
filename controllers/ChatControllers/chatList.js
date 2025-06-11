@@ -1,6 +1,6 @@
-const Message = require("../models/message");
-const Conversation = require("../models/conversation");
-const { checkSocketId, getOfflineMessages } = require("../Utils/redis");
+const Message = require("../../models/message");
+const Conversation = require("../../models/conversation");
+const { checkSocketId, getOfflineMessages } = require("../../Utils/redis");
 
 const ChatList = async (req, res) => {
   try {

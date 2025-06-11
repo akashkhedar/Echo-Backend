@@ -1,4 +1,3 @@
-const userProfile = require("../controllers/userProfile");
 const { verifyAccessToken, createAccessToken } = require("../Utils/cookie");
 const { validateRefreshToken } = require("../Utils/redis");
 const { match } = require("path-to-regexp");

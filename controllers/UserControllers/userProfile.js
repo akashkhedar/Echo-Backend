@@ -1,7 +1,7 @@
-const User = require("../models/user");
-const { storeRefreshToken } = require("../Utils/redis");
-const { createAccessToken, createRefreshToken } = require("../Utils/cookie");
-const cache = require("../Utils/cache");
+const User = require("../../models/user");
+const { storeRefreshToken } = require("../../Utils/redis");
+const { createAccessToken, createRefreshToken } = require("../../Utils/cookie");
+const cache = require("../../Utils/cache");
 
 const userProfile = async (req, res) => {
   try {
