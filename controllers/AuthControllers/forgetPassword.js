@@ -15,7 +15,7 @@ const forgetPassword = async (req, res) => {
       return res.status(404).json({ message: "User not found!" });
     }
     const token = await createResetTkn(user.email);
-    mailService(user.username, token, req.path);
+    mailService(user.email, token, req.path);
     res
       .status(200)
       .json({ message: "Check your mail for password reset link" });
