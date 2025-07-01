@@ -15,6 +15,7 @@ const verifyUser = async (req, res) => {
     }
     const newUser = await User.create({
       email: email,
+      username: email,
       isVerified: true,
     });
     const userInfo = {
