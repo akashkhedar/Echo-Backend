@@ -13,7 +13,7 @@ const cookieAuthentication = async (req, res, next) => {
     "/api/auth/update-password/:token",
     "/api/admin/upload/all",
     "/api/user/profile",
-    "/api/",
+    "/api/user/check/username",
   ];
   const isUnprotectedRoute = (path) => {
     return unprotectedRoutes.some((route) => match(route)(path));

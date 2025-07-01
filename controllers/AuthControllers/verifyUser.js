@@ -8,7 +8,6 @@ const verifyUser = async (req, res) => {
   try {
     const { code } = req.body;
     const email = await verifyCode(code);
-    console.log(email);
     if (!email) {
       res.status(401).json("Verification code invalid. Try again!");
       return;
@@ -23,7 +22,6 @@ const verifyUser = async (req, res) => {
       profileImage: newUser.profileImage,
       profileStatus: false,
     };
-    console.log("user created");
     const accessToken = createAccessToken(userInfo);
     const refreshToken = await createRefreshToken();
     await storeRefreshToken(refreshToken, userInfo);
