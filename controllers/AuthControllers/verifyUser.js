@@ -8,20 +8,21 @@ const verifyUser = async (req, res) => {
   try {
     const { code } = req.body;
     const email = await verifyCode(code);
+    console.log(email);
     if (!email) {
       res.status(401).json("Verification code invalid. Try again!");
       return;
     }
-    const updatedUser = await User.create({
+    const newUser = await User.create({
       email: email,
       isVerified: true,
-      returnDocument: "after",
     });
     const userInfo = {
-      userId: updatedUser._id,
-      profileImage: updatedUser.profileImage,
+      userId: newUser._id,
+      profileImage: newUser.profileImage,
       profileStatus: false,
     };
+    console.log("user created");
     const accessToken = createAccessToken(userInfo);
     const refreshToken = await createRefreshToken();
     await storeRefreshToken(refreshToken, userInfo);
@@ -39,7 +40,6 @@ const verifyUser = async (req, res) => {
       maxAge: 604800000,
     });
     res.status(200).json({ message: "Email verified" });
-    addUser(updatedUser);
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }

@@ -55,7 +55,7 @@ const cookieAuthentication = async (req, res, next) => {
   const userInfo = cache.get(accessCookie);
   if (!userInfo) {
     const user = verifyAccessToken(accessCookie);
-    if (!user.profileStatus && req.path === "/check/username") {
+    if (!user.profileStatus && req.path === "/api/check/username") {
       return res.status(401).end("Profile incomplete");
     }
     if (!user) {
