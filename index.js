@@ -18,7 +18,6 @@ const { server } = setupSocketIO(app);
 
 app.set("trust proxy", 1);
 
-uploadBulk();
 connectToMongoose();
 
 const allowedOrigins = [
@@ -43,6 +42,9 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(cookieAuthentication);
 app.use(express.urlencoded({ extended: true }));
+
+//ADMIN ROUTE
+app.use("/api/admin", require("./routes/adminRoute"));
 
 //AUTHENTICATION ROUTES
 app.use("/api/auth", require("./routes/authRoutes"));
