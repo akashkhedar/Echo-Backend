@@ -31,7 +31,7 @@ const mailService = (email, code, routePath) => {
   });
 
   var mailOptions = {
-    from: "akashkhedar262@gmail.com",
+    from: "noreply.connect.echo@gmail.com",
     to: email,
     subject:
       routePath === "/create"

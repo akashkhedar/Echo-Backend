@@ -7,6 +7,7 @@ const connectToMongoose = require("./Utils/mongoConnect.js");
 const limiter = require("./middlewares/limiter.js");
 const { setupSocketIO } = require("./Utils/sockets");
 const dotenv = require("dotenv");
+const { uploadBulk } = require("./Utils/meilisearchConnect");
 
 dotenv.config();
 
@@ -17,6 +18,7 @@ const { server } = setupSocketIO(app);
 
 app.set("trust proxy", 1);
 
+uploadBulk();
 connectToMongoose();
 
 const allowedOrigins = [
@@ -41,9 +43,6 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(cookieAuthentication);
 app.use(express.urlencoded({ extended: true }));
-
-//ADMIN ROUTE
-app.use("/api/admin", require("./routes/adminRoutes"));
 
 //AUTHENTICATION ROUTES
 app.use("/api/auth", require("./routes/authRoutes"));
