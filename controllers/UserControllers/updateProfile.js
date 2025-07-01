@@ -1,6 +1,7 @@
 const User = require("../../models/user");
 const cache = require("../../Utils/cache");
 const { createAccessToken, createRefreshToken } = require("../../Utils/cookie");
+const { addUser } = require("../../Utils/meilisearchConnect");
 const { storeRefreshToken } = require("../../Utils/redis");
 
 const updateProfile = async (req, res) => {
@@ -42,6 +43,8 @@ const updateProfile = async (req, res) => {
     if (!user) {
       return res.status(401).json({ message: "User not found!" });
     }
+
+    await addUser(user);
 
     const userInfo = {
       userId: user._id,

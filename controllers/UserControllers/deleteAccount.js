@@ -4,6 +4,7 @@ const cache = require("../../Utils/cache");
 const bcrypt = require("bcrypt");
 const Conversation = require("../../models/conversation");
 const Message = require("../../models/message");
+const { removeUser } = require("../../Utils/meilisearchConnect");
 
 const deleteAccount = async (req, res) => {
   try {
@@ -24,6 +25,7 @@ const deleteAccount = async (req, res) => {
     await Message.deleteMany({ sender: userId });
     cache.del(accessToken);
     await user.deleteOne();
+    await removeUser(user);
     res.status(200).json({ message: "Success" });
   } catch (error) {
     return res.status(500).json({ message: "Internal Server Error" });

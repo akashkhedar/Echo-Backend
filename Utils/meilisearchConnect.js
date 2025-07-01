@@ -34,6 +34,10 @@ const addUser = async (user) => {
   await client.index("users").addDocuments(user);
 };
 
+const removeUser = async (user) => {
+  await index.deleteDocument(user);
+};
+
 const getUser = async (user) => {
   const result = await client.index("users").search(user, { limit: 10 });
   return result.hits;
@@ -50,4 +54,11 @@ const existingUser = async (username, userId) => {
   return hit && hit._id !== userId;
 };
 
-module.exports = { uploadBulk, addUser, getUser, getAllUser, existingUser };
+module.exports = {
+  uploadBulk,
+  addUser,
+  getUser,
+  getAllUser,
+  existingUser,
+  removeUser,
+};

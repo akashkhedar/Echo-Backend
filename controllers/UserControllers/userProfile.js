@@ -2,6 +2,7 @@ const User = require("../../models/user");
 const { storeRefreshToken } = require("../../Utils/redis");
 const { createAccessToken, createRefreshToken } = require("../../Utils/cookie");
 const cache = require("../../Utils/cache");
+const { addUser } = require("../../Utils/meilisearchConnect");
 
 const userProfile = async (req, res) => {
   try {
@@ -23,6 +24,7 @@ const userProfile = async (req, res) => {
     if (!user) {
       res.status(401).json({ message: "User not found" });
     }
+    await addUser(user);
     const userInfo = {
       userId: user._id,
       username: user.username,

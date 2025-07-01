@@ -14,7 +14,6 @@ const setupSocketIO = (app) => {
 
   setIO(ioInstance);
   ioInstance.on("connection", (socket) => {
-    socket.to(socket.id).emit("connect");
     onConnection(socket, ioInstance);
   });
 
