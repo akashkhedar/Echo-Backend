@@ -20,10 +20,7 @@ app.set("trust proxy", 1);
 
 connectToMongoose();
 
-const allowedOrigins = [
-  "http://localhost:3000",
-  "https://echo-frontend-w607.onrender.com",
-];
+const allowedOrigins = ["http://localhost:3000", "https://app.echo.linkpc.net"];
 
 app.use(
   cors({

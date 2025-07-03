@@ -59,14 +59,16 @@ const updateProfile = async (req, res) => {
     res.cookie("accessToken", accessToken, {
       httpOnly: true,
       secure: true,
-      sameSite: "None",
+      sameSite: "Lax",
       maxAge: 3600000,
+      domain: ".echo.linkpc.net",
     });
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
       secure: true,
-      sameSite: "None",
+      sameSite: "Lax",
       maxAge: 604800000,
+      domain: ".echo.linkpc.net",
     });
     res.status(200).json({ user: user });
   } catch (error) {

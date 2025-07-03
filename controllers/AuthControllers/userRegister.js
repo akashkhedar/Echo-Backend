@@ -28,14 +28,16 @@ const createUser = async (req, res) => {
         res.cookie("accessToken", accessToken, {
           httpOnly: true,
           secure: true,
-          sameSite: "None",
+          sameSite: "Lax",
           maxAge: 3600000,
+          domain: ".echo.linkpc.net",
         });
         res.cookie("refreshToken", refreshToken, {
           httpOnly: true,
           secure: true,
-          sameSite: "None",
+          sameSite: "Lax",
           maxAge: 604800000,
+          domain: ".echo.linkpc.net",
         });
         return res.status(401).json({ message: "Profile incomplete!" });
       }

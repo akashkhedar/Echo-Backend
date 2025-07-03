@@ -45,10 +45,12 @@ const cookieAuthentication = async (req, res, next) => {
     cache.set(newAccessToken, userInfo, 3600);
     res.cookie("accessToken", newAccessToken, {
       httpOnly: true,
-      secure: true,
-      sameSite: "None",
+      secure: true, // required for HTTPS
+      sameSite: "Lax", // safe default, now allowed
       maxAge: 3600000,
+      domain: ".echo.linkpc.net", // allow all subdomains to read
     });
+
     req.user = verifyRefreshToken;
     return next();
   }
