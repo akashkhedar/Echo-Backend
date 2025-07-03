@@ -12,8 +12,6 @@ const cookieAuthentication = async (req, res, next) => {
     "/api/auth/verify-reset-token/:token",
     "/api/auth/update-password/:token",
     "/api/admin/upload/all",
-    "/api/user/profile",
-    "/api/user/check/username",
   ];
   const isUnprotectedRoute = (path) => {
     return unprotectedRoutes.some((route) => match(route)(path));
@@ -56,15 +54,7 @@ const cookieAuthentication = async (req, res, next) => {
   }
   const userInfo = cache.get(accessCookie);
   if (!userInfo) {
-    const user = verifyAccessToken(accessCookie);
-    if (!user.profileStatus && req.path === "/api/user/check/username") {
-      return res.status(401).end("Profile incomplete");
-    }
-    if (!user) {
-      return res.status(401).end("Login Again");
-    }
-    req.user = user;
-    return next();
+    return res.status(401).end("Unauthorized!");
   }
   req.user = userInfo;
   next();

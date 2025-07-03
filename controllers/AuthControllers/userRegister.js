@@ -18,9 +18,8 @@ const createUser = async (req, res) => {
         }
         const userInfo = {
           userId: user._id,
-          username: user.username,
-          fullname: user.fullname,
           profileImage: user.profileImage,
+          email: user.email,
         };
         const accessToken = createAccessToken(userInfo);
         const refreshToken = await createRefreshToken();
