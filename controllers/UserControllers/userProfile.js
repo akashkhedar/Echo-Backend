@@ -6,6 +6,7 @@ const { addUser } = require("../../Utils/meilisearchConnect");
 
 const userProfile = async (req, res) => {
   try {
+    const isProduction = process.env.NODE_ENV === "production";
     const { password, username, fullname, dob, gender, pic_url } = req.body;
     const { userId } = req.user;
     const user = await User.findOneAndUpdate(
@@ -39,17 +40,18 @@ const userProfile = async (req, res) => {
     const info = cache.get(accessToken);
     res.cookie("accessToken", accessToken, {
       httpOnly: true,
-      secure: true,
-      sameSite: "Lax",
+      secure: isProduction,
+      sameSite: isProduction ? "None" : "Lax",
       maxAge: 3600000,
-      domain: ".echo.linkpc.net",
+      domain: isProduction ? ".echo.linkpc.net" : undefined,
     });
+
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
-      secure: true,
-      sameSite: "Lax",
+      secure: isProduction,
+      sameSite: isProduction ? "None" : "Lax",
       maxAge: 604800000,
-      domain: ".echo.linkpc.net",
+      domain: isProduction ? ".echo.linkpc.net" : undefined,
     });
     res.status(200).json({ user: user });
   } catch (error) {

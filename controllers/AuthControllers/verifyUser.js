@@ -6,6 +6,7 @@ const { addUser } = require("../../Utils/meilisearchConnect");
 
 const verifyUser = async (req, res) => {
   try {
+    const isProduction = process.env.NODE_ENV === "production";
     const { code } = req.body;
     const email = await verifyCode(code);
     if (!email) {
@@ -28,17 +29,18 @@ const verifyUser = async (req, res) => {
     cache.set(accessToken, userInfo, 3600);
     res.cookie("accessToken", accessToken, {
       httpOnly: true,
-      secure: true,
-      sameSite: "Lax",
+      secure: isProduction,
+      sameSite: isProduction ? "None" : "Lax",
       maxAge: 3600000,
-      domain: ".echo.linkpc.net",
+      domain: isProduction ? ".echo.linkpc.net" : undefined,
     });
+
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
-      secure: true,
-      sameSite: "Lax",
+      secure: isProduction,
+      sameSite: isProduction ? "None" : "Lax",
       maxAge: 604800000,
-      domain: ".echo.linkpc.net",
+      domain: isProduction ? ".echo.linkpc.net" : undefined,
     });
     res.status(200).json({ message: "Email verified" });
   } catch (error) {

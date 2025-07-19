@@ -6,6 +6,8 @@ const cache = require("../../Utils/cache");
 
 const userLogin = async (req, res) => {
   try {
+    const isProduction = process.env.NODE_ENV === "production";
+
     const { user, userPassword } = req.body;
     const profile = await User.findOne({
       $or: [{ username: user }, { email: user }],
@@ -30,17 +32,18 @@ const userLogin = async (req, res) => {
     cache.set(accessToken, userInfo, 3600);
     res.cookie("accessToken", accessToken, {
       httpOnly: true,
-      secure: true,
-      sameSite: "Lax",
+      secure: isProduction,
+      sameSite: isProduction ? "None" : "Lax",
       maxAge: 3600000,
-      domain: ".echo.linkpc.net",
+      domain: isProduction ? ".echo.linkpc.net" : undefined,
     });
+
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
-      secure: true,
-      sameSite: "Lax",
+      secure: isProduction,
+      sameSite: isProduction ? "None" : "Lax",
       maxAge: 604800000,
-      domain: ".echo.linkpc.net",
+      domain: isProduction ? ".echo.linkpc.net" : undefined,
     });
     res.status(200).json({ user: profile });
   } catch (error) {

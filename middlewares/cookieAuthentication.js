@@ -4,6 +4,7 @@ const { match } = require("path-to-regexp");
 const cache = require("../Utils/cache");
 
 const cookieAuthentication = async (req, res, next) => {
+  const isProduction = process.env.NODE_ENV === "production";
   const unprotectedRoutes = [
     "/api/auth/create",
     "/api/auth/verify",
@@ -45,10 +46,10 @@ const cookieAuthentication = async (req, res, next) => {
     cache.set(newAccessToken, userInfo, 3600);
     res.cookie("accessToken", newAccessToken, {
       httpOnly: true,
-      secure: true, // required for HTTPS
-      sameSite: "Lax", // safe default, now allowed
+      secure: isProduction,
+      sameSite: isProduction ? "None" : "Lax",
       maxAge: 3600000,
-      domain: ".echo.linkpc.net", // allow all subdomains to read
+      domain: isProduction ? ".echo.linkpc.net" : undefined,
     });
 
     req.user = verifyRefreshToken;
