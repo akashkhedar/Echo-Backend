@@ -5,7 +5,7 @@ const uploadPost = async (req, res) => {
     const postBody = req.body;
     const { userId } = req.user;
 
-    const allowedFields = ["media", "caption", "tags", "mentions"];
+    const allowedFields = ["media", "caption"];
 
     if (postBody.tags) {
       tags = (str) => {

@@ -13,8 +13,9 @@ const ChatList = async (req, res) => {
 
     const filteredConversations = await Promise.all(
       conversations.map(async (convo) => {
+        const currentUserId = userId.toString();
         const user = convo.participants.find(
-          (p) => p._id.toString() !== userId
+          (p) => p._id.toString() !== currentUserId
         );
 
         const isOnline = await checkSocketId(user._id);
@@ -30,6 +31,7 @@ const ChatList = async (req, res) => {
         };
       })
     );
+
     res.status(200).json(filteredConversations);
   } catch (error) {
     return res.status(500).json({ error: error.message });
