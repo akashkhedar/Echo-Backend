@@ -14,6 +14,8 @@ const callAccepted = require("./events/callAccepted");
 const endCall = require("./events/endCall");
 const sendNewAnswer = require("./events/sendNewAnswer");
 const sendNewOffer = require("./events/sendNewOffer");
+const cancelCall = require("./events/cancelCall");
+const declinedCall = require("./events/declinedCall");
 
 const onConnection = (socket, io) => {
   socket.on("joinChat", (userId) => {
@@ -39,6 +41,12 @@ const onConnection = (socket, io) => {
   });
   socket.on("callUser", ({ callerId, calleeId, type }) => {
     callUser(callerId, calleeId, type, io);
+  });
+  socket.on("CancelCall", ({ callerId, calleeId }) => {
+    cancelCall(callerId, calleeId, io);
+  });
+  socket.on("declinedCall", ({ callerId }) => {
+    declinedCall(callerId, io);
   });
   socket.on("acceptedCall", ({ callerId, calleeId, type }) => {
     callAccepted(callerId, calleeId, type, io);
