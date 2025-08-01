@@ -15,7 +15,11 @@ const postSchema = new Schema(
       type: String,
     },
     media: {
-      type: [String],
+      type: String,
+      required: true,
+    },
+    ratio: {
+      type: String,
       required: true,
     },
     likes: {

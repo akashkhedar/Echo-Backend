@@ -5,15 +5,15 @@ const { createResetTkn } = require("../../Utils/redis");
 const forgetPassword = async (req, res) => {
   try {
     const userInfo = req.body.userInfo;
+
     const user = await User.findOne({
-      $or: [
-        { username: { $regex: new RegExp(userInfo, "i") } },
-        { email: { $regex: new RegExp(userInfo, "i") } },
-      ],
+      $or: [{ username: userInfo }, { email: userInfo }],
     });
+
     if (!user) {
       return res.status(404).json({ message: "User not found!" });
     }
+
     const token = await createResetTkn(user.email);
     mailService(user.email, token, req.path);
     res
