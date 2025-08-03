@@ -14,7 +14,12 @@ const setupSocketIO = (app) => {
 
   setIO(ioInstance);
   ioInstance.on("connection", (socket) => {
+    const userId = socket.handshake.query.userId;
+    socket.broadcast.emit("userOnline", userId);
     onConnection(socket, ioInstance);
+    socket.on("disconnect", () => {
+      socket.broadcast.emit("userOffline", userId);
+    });
   });
 
   return { server, ioInstance };
