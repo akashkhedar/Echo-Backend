@@ -12,6 +12,7 @@ const sendMessage = async (
   username,
   io
 ) => {
+  console.log("sendMessage called", { senderId, receiverId, message });
   try {
     let conversation = await Conversation.findOne({
       participants: { $all: [senderId, receiverId] },

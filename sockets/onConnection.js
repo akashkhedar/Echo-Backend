@@ -1,6 +1,5 @@
 const joinAllRooms = require("./events/joinAllRooms");
-const joinChat = require("./events/joinChat");
-const leaveChat = require("./events/leaveChat");
+const online = require("./events/online");
 const offlineMessages = require("./events/offlineMessages");
 const readMsg = require("./events/readMsg");
 const sendMessage = require("./events/sendMessage");
@@ -16,10 +15,11 @@ const sendNewAnswer = require("./events/sendNewAnswer");
 const sendNewOffer = require("./events/sendNewOffer");
 const cancelCall = require("./events/cancelCall");
 const declinedCall = require("./events/declinedCall");
+const offline = require("./events/offline");
 
 const onConnection = (socket, io) => {
-  socket.on("joinChat", (userId) => {
-    joinChat(socket, userId);
+  socket.on("online", (userId) => {
+    online(userId, socket);
   });
   socket.on("joinAllRooms", (rooms) => {
     joinAllRooms(socket, rooms);
@@ -69,7 +69,9 @@ const onConnection = (socket, io) => {
   socket.on("endCall", (callee) => {
     endCall(callee, io);
   });
-  socket.on("leaveChat", (userId) => leaveChat(socket, io, userId));
+  socket.on("offline", (userId) => {
+    offline(userId, socket);
+  });
 };
 
 module.exports = onConnection;
