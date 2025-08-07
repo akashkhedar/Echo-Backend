@@ -12,11 +12,11 @@ router.post(
   require("../controllers/UserControllers/deleteAccount")
 );
 router.get(
-  "/fetch/followers/:id",
+  "/fetch/followers",
   require("../controllers/UserControllers/fetchFollowers")
 );
 router.get(
-  "/fetch/following/:id",
+  "/fetch/following",
   require("../controllers/UserControllers/fetchFollowing")
 );
 router.get("/search", require("../controllers/UserControllers/searchUser"));

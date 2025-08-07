@@ -6,6 +6,8 @@ const unfollowUser = async (req, res) => {
     const currentUserId = new mongoose.Types.ObjectId(req.user.userId);
     const targetUserId = new mongoose.Types.ObjectId(req.params.userIdToRemove);
 
+    console.log(currentUserId, targetUserId);
+
     const [currentUser, targetUser] = await Promise.all([
       User.findById(currentUserId),
       User.findById(targetUserId),
