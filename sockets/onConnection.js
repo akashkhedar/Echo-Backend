@@ -16,6 +16,8 @@ const sendNewOffer = require("./events/sendNewOffer");
 const cancelCall = require("./events/cancelCall");
 const declinedCall = require("./events/declinedCall");
 const offline = require("./events/offline");
+const newPost = require("./events/newPost");
+const deletePost = require("./events/deletePost");
 
 const onConnection = (socket, io) => {
   socket.on("online", (userId) => {
@@ -71,6 +73,12 @@ const onConnection = (socket, io) => {
   });
   socket.on("offline", (userId) => {
     offline(userId, socket);
+  });
+  socket.on("newPost", (post) => {
+    newPost(post, socket, io);
+  });
+  socket.on("postDeleted", ({ postId, userId }) => {
+    deletePost(postId, io, userId);
   });
 };
 

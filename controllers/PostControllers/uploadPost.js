@@ -30,7 +30,8 @@ const uploadPost = async (req, res) => {
       userId: userId,
       ...fieldsToUpdate,
     });
-    res.status(200).json({ message: post });
+    await post.populate("userId");
+    res.status(200).json({ post: post });
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
