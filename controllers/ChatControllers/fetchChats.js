@@ -7,17 +7,19 @@ const fetchChats = async (req, res) => {
     const skip = parseInt(req.query.skip) || 0;
     const limit = parseInt(req.query.limit) || 30;
 
-    const { messages } = await Conversation.findById(id).populate({
+    const convo = await Conversation.findById(id).populate({
       path: "messages",
       options: {
-        sort: { createdAt: -1 },
+        sort: { createdAt: -1 }, // newest first
         skip,
         limit,
       },
     });
 
-    res.status(200).json(messages.reverse()); // reverse to get oldest-to-newest order
+    const messages = convo?.messages || [];
+    res.status(200).json(messages.reverse()); // oldest first for UI
   } catch (error) {
+    console.error(error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
