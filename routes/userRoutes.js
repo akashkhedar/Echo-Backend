@@ -2,6 +2,7 @@ const { Router } = require("express");
 
 const router = Router();
 
+router.get("/about", require("../controllers/UserControllers/userAbout"));
 router.post("/profile", require("../controllers/UserControllers/userProfile"));
 router.post(
   "/update/profile",

@@ -1,23 +1,18 @@
-// controllers/chatController.js
 const Conversation = require("../../models/conversation");
 
 const fetchChats = async (req, res) => {
   try {
-    const { id } = req.params;
-    const skip = parseInt(req.query.skip) || 0;
-    const limit = parseInt(req.query.limit) || 30;
+    const { userId } = req.user;
+    const { id } = req.params; // ✅ Corrected
 
-    const convo = await Conversation.findById(id).populate({
-      path: "messages",
-      options: {
-        sort: { createdAt: -1 }, // newest first
-        skip,
-        limit,
-      },
-    });
+    const conversation = await Conversation.findById(id).populate("messages"); // ✅ No destructuring here
+    if (!conversation || !conversation.messages) {
+      return res
+        .status(404)
+        .json({ message: "No messages found for this chat" });
+    }
 
-    const messages = convo?.messages || [];
-    res.status(200).json(messages.reverse()); // oldest first for UI
+    res.status(200).json(conversation.messages); // ✅ Access messages after checking
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal Server Error" });
