@@ -53,7 +53,7 @@ const userProfile = async (req, res) => {
       maxAge: 604800000,
       domain: isProduction ? ".echo.linkpc.net" : undefined,
     });
-    res.status(200).json({ user: userInfo });
+    res.status(200).json({ user: user });
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }

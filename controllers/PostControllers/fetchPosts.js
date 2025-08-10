@@ -1,32 +1,16 @@
-// controllers/fetchPosts.js
 const Post = require("../../models/post");
 
 const fetchPosts = async (req, res) => {
   try {
     const { userId } = req.user;
-    const { cursor } = req.query;
-    const limit = 30;
 
-    const query = { userId: userId };
-
-    if (cursor) {
-      query.createdAt = { $lt: new Date(cursor) };
-    }
-
-    const posts = await Post.find(query)
+    const posts = await Post.find({ userId })
       .populate("userId")
-      .sort({ createdAt: -1 })
-      .limit(limit + 1); // Fetch one extra to check if there's more
+      .sort({ createdAt: -1 });
 
-    const hasMore = posts.length > limit;
-    const results = hasMore ? posts.slice(0, -1) : posts;
-
-    res.status(200).json({
-      posts: results,
-      nextCursor: hasMore ? results[results.length - 1].createdAt : null,
-    });
+    res.status(200).json(posts);
   } catch (error) {
-    console.error(error);
+    console.error("Error fetching user posts:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
