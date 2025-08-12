@@ -19,6 +19,7 @@ const updateProfile = async (req, res) => {
       "interests",
       "website",
       "profileImage",
+      "coverImage",
     ];
 
     const fieldsToUpdate = Object.keys(updatedFields)
@@ -53,6 +54,7 @@ const updateProfile = async (req, res) => {
       username: user.username,
       fullname: user.fullname,
       profileImage: user.profileImage,
+      coverImage: user.coverImage,
     };
     const accessToken = createAccessToken(userInfo);
     const refreshToken = await createRefreshToken();

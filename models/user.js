@@ -63,6 +63,10 @@ const userSchema = new Schema(
       default:
         "https://www.google.com/url?sa=i&url=https%3A%2F%2Fstock.adobe.com%2Fsearch%3Fk%3D%2522default%2Bprofile%2Bpicture%2522&psig=AOvVaw0ufxeyI-d3zsr7W8pZLGyy&ust=1733304945867000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCIjHyLSmi4oDFQAAAAAdAAAAABAE",
     },
+    coverImage: {
+      type: String,
+      default: "https://wallhalla.com/thumbs/8",
+    },
   },
   { timestamps: true }
 );

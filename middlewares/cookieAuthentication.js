@@ -43,13 +43,14 @@ const cookieAuthentication = async (req, res, next) => {
       profileStatus: verifyRefreshToken.profileStatus,
     };
     const newAccessToken = createAccessToken(userInfo);
-    cache.set(newAccessToken, userInfo, 3600);
+    cache.set(newAccessToken, userInfo, 7200); // Increased to 2 hours
     res.cookie("accessToken", newAccessToken, {
       httpOnly: true,
       secure: isProduction,
       sameSite: isProduction ? "None" : "Lax",
-      maxAge: 3600000,
+      maxAge: 7200000, // Increased to 2 hours
       domain: isProduction ? ".echo.linkpc.net" : undefined,
+      path: "/",
     });
 
     req.user = verifyRefreshToken;

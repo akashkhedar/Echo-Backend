@@ -4,6 +4,7 @@ const router = Router();
 
 router.get("/about", require("../controllers/UserControllers/userAbout"));
 router.post("/profile", require("../controllers/UserControllers/userProfile"));
+router.get("/basic/:id", require("../controllers/UserControllers/userBasic"));
 router.post(
   "/update/profile",
   require("../controllers/UserControllers/updateProfile")
