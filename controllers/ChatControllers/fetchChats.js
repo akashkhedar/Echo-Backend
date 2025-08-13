@@ -1,4 +1,5 @@
 const Conversation = require("../../models/conversation");
+const { decryptMessage } = require("../../Utils/encryptdecryptMsg");
 
 const fetchChats = async (req, res) => {
   try {
@@ -12,7 +13,15 @@ const fetchChats = async (req, res) => {
         .json({ message: "No messages found for this chat" });
     }
 
-    res.status(200).json(conversation.messages); // ✅ Access messages after checking
+    const decryptedMessages = conversation.messages.map((msg) => {
+      const decrypted = decryptMessage(msg.message, msg.iv);
+      return {
+        ...msg.toObject(),
+        message: decrypted,
+      };
+    });
+
+    res.status(200).json(decryptedMessages); // ✅ Access messages after checking
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal Server Error" });

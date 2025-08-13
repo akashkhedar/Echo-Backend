@@ -15,6 +15,9 @@ const messageModel = new mongoose.Schema(
       maxlength: 1000,
       trim: true,
     },
+    iv: {
+      type: String,
+    },
     roomId: {
       type: String,
     },
